@@ -1,0 +1,19 @@
+#main{
+	width: fit-content;
+	margin: auto;
+    text-align: center;
+}
+.welcome{
+    color: blueviolet
+}
+a{
+  text-decoration: none;
+}
+#input{
+	width: fit-content;
+	margin: auto;
+    margin-top: 20px;
+}
+.hidden{
+    display: none;
+}
