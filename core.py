@@ -1,4 +1,16 @@
+# light's fucking note
+#
+# CLIENT to SERVER
+#     `!account password` | log in
+#     `>msg`              | command
+#
+# SERVER to CLIENT
+#     `!content`          | log in error
+#     `<msg`              | push message(response)
+#     `@n`                | the number of online users
+
 import json
+import time
 import random
 import asyncio
 import websockets
@@ -10,13 +22,14 @@ SERVERPORT = 9999
 DATAFILE = "./database.json"
 CMD_LOGIN = "!"
 CMD_COMMAND = ">"
-NEWUSERCONFIG = {"chicken": 10, "coin": 0}
+NEWUSERCONFIG = {"chicken": 10, "coin": 0, "lastgr": 0}
+EVERYGR = 150
 HELP = \
 '''help   : *
 info   : your information
-gr     : get random chicken
-'''
-
+gr     : get random chicken(every %ds)
+rl     : ranking list of coin
+''' % (EVERYGR)
 DEBUG = False
 
 def pushmsg(text):
@@ -24,6 +37,9 @@ def pushmsg(text):
 
 def errormsg(text):
     return "!%s" % text
+
+def numbermsg(num: int):
+    return "@%d" % num
 
 class Farmer:
     def __init__(self):
@@ -43,6 +59,10 @@ class Hcf:
         autoupdate = threading.Thread(target = self._update_database)
         autoupdate.setDaemon(True)
         autoupdate.start()
+
+    # the number of online users
+    def _number_of_online(self):
+        return len(self.op)
 
     # update database.json
     def _update_database(self):
@@ -95,6 +115,10 @@ class Hcf:
                 return f;
         return None;
 
+    # broadcast message to websockets in self.op
+    def _broadcast(self, msg):
+        websockets.broadcast(self.op.keys(), msg)
+
     # handle and return reply data
     def _handledata(self, data, websocket):
         if (len(data) <= 0):
@@ -116,10 +140,12 @@ class Hcf:
                     self._add_farmer(account, password, **NEWUSERCONFIG)
                     farmer = self._find_by_account(account)
                     self._setop(websocket, farmer);
+                    self._broadcast(numbermsg(self._number_of_online()))
                     return pushmsg("welcome, %s! enjoy raising chicken!" % account)
                 else:
                     if (farmer.password == password):
                         self._setop(websocket, farmer);
+                        self._broadcast(numbermsg(self._number_of_online()))
                         return pushmsg("welcome, %s!" % account)
                     else:
                         return errormsg("wrong password")
@@ -140,13 +166,27 @@ class Hcf:
                 return pushmsg(HELP)
 
             elif (command[0] == "gr"):
-                num = random.randint(1, 3)
-                farmer.chicken += num
-                return pushmsg("you get %d chicken" % num)
+                nowtime = round(time.time())
+                if (nowtime - farmer.lastgr >= EVERYGR):
+                    num = random.randint(1, 3)
+                    farmer.chicken += num
+                    farmer.lastgr = nowtime
+                    return pushmsg("you get %d chicken" % num)
+                else:
+                    return pushmsg("please get chicken after %d seconds" % (EVERYGR - (nowtime - farmer.lastgr)))
 
             elif (command[0] == "info"):
                 r = "%s:\nchicken:%s\ncoin:%s" % (farmer.account, farmer.chicken, farmer.coin)
                 return pushmsg(r)
+
+            elif (command[0] == "rl"):
+                crl = sorted(self.database, key = lambda x: x.coin, reverse = True)
+                crltext = "ranking list:\n"
+                for i, e in enumerate(crl):
+                    crltext = crltext + "%-2d %s\n" % (i + 1, e.account)
+                    if (i + 1 == 10):
+                        break
+                return pushmsg(crltext)
 
         return pushmsg("?")
 
@@ -159,8 +199,12 @@ class Hcf:
                 reply = self._handledata(data, websocket)
                 print("server:", reply)
                 await websocket.send(reply)
-        except websockets.exceptions.ConnectionClosedOK:
-            pass
+        except (websockets.exceptions.ConnectionClosedOK,
+                websockets.exceptions.ConnectionClosedError):
+            # del user from self.op
+            if (websocket in self.op):
+                del self.op[websocket]
+            self._broadcast(numbermsg(self._number_of_online()))
 
     async def run(self):
         async with websockets.serve(self._recv,
