@@ -2,6 +2,7 @@ function $(query){
     var res = document.querySelectorAll(query);
     return res.length==1 ? res[0] : res;
 }
+var DEBUG = true;
 var account, passwd = true;
 var ispass = false;
 $("#submit").onclick = function (){
@@ -38,6 +39,12 @@ ws.onmessage = function (message){
     }
 }
 
+$("#msg").onkeypress = function(e){
+    if (e.keyCode == 13){
+        $("#text-submit").click();
+    }
+}
 $("#text-submit").onclick = function (){
     send(`>${$("#msg").value}`);
+    $("#msg").value = "";
 }
