@@ -2,17 +2,17 @@
     width: fit-content;
     margin: auto;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 #msg{
     background: #1D1F20;
-    width: 440px;
+    width: 435px;
 }
 #input{
     width: fit-content;
     margin: auto;
     text-align: right;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 #result{
     width:500px;
@@ -20,26 +20,48 @@
     background:#1D1F20;
     color: #ffffff;
 }
-#oparea{
+#mframe{
     border-radius: 10px;
     width: 550px;
-    height: 450px;
+    height: 480px;
     margin: auto;
     text-align: center;
     background: #1D1F20;
+    margin-top: 25px; 
+    padding: 10px 0px;
+}
+#send{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+#oframe{
+    margin: 5px 16px;
+    border-radius: 6px;
+    text-align: left;
+    padding: 4px 7px;
+    color: #ffffff;
+    font-family: Lucida Console, monospace;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+#chicken{
+    width: 50px;
+    height: 50px;
 }
 .logo{
-    font-family: Impact, Charcoal, sans-serif;
-    font-size: 70px;
-    margin-bottom: 20px;
+    font-family: Impact, Charcoal, sans-serif, monospace;
+    font-size: 60px;
 }
 .hidden{
     display: none;
 }
-.othertitle{
-    font-family: Lucida Console;
+.label{
+    font-family: Lucida Console, monospace;
     text-align: center;
     color: #ffffff;
+}
+.card{
+    padding: 0px 5px;
 }
 html, body {
     height: 100%;
@@ -55,32 +77,28 @@ a{
     text-decoration: none;
 }
 textarea{
-    font-family: Lucida Console;
+    font-family: Lucida Console, monospace;
     resize: none;
     border-radius: 10px;
     padding: 7px;
-    margin-left: 1px;
-    margin-right: 1px;
-    margin-top: 15px;
-    margin-bottom: 10px;
 }
 input{
     font-family: Lucida Console;
-    border-radius: 4px;
-    border-width: 1px;
-    line-height: 20px;
+    border-radius: 5px;
+    border-width: 2px;
+    line-height: 25px;
     padding: 1px 3px;
     background: #1D1F20;
     color: #ffffff;
 }
 button{
     font-family: Lucida Console;
-    border-radius: 4px;
-    border-width: 1px;
-    line-height: 20px;
+    border-radius: 6px;
+    border-width: 2px;
+    line-height: 25px;
     background: #1b1918;
     color: #ffff;
-    padding: 1px;
+    padding: 1px 6px;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Raleway:200');
