@@ -37,8 +37,14 @@ ws.onmessage = function (message){
         }
         $("#result").textContent = data.slice(1);
     }
+    if (data.startsWith("@")) {
+        $("#num").innerHTML = data.slice(1);
+    }
 }
-
+$("#chicken").onclick = function(e){
+   $("#niganma").currentTime = 1;
+   $("#niganma").play();
+}
 $("#msg").onkeypress = function(e){
     if (e.keyCode == 13){
         $("#text-submit").click();
