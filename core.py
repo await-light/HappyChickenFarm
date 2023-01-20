@@ -12,8 +12,8 @@ CMD_LOGIN = "!"
 CMD_COMMAND = ">"
 NEWUSERCONFIG = {"chicken": 10, "coin": 0}
 HELP = \
-'''
-help   : *
+'''help   : *
+info   : your information
 gr     : get random chicken
 '''
 
@@ -143,6 +143,10 @@ class Hcf:
                 num = random.randint(1, 3)
                 farmer.chicken += num
                 return pushmsg("you get %d chicken" % num)
+
+            elif (command[0] == "info"):
+                r = "%s:\nchicken:%s\ncoin:%s" % (farmer.account, farmer.chicken, farmer.coin)
+                return pushmsg(r)
 
         return pushmsg("?")
 
