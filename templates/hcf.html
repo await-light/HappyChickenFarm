@@ -9,14 +9,26 @@
 </head>
 <body>
     <div id="input">
+        <h1 class="othertitle">Login In</h1>
         <input type="text" placeholder="account" id="acc"><br><br>
         <input type="text" placeholder="password" id="pwd"><br><br>
         <button id="submit">submit</button>
     </div>
     <div id="main" class="hidden">
-        <textarea id="msg"></textarea>
-        <button id="text-submit">submit</button>
-        <div id="result"></div>
+        <div id="title" class="logo">
+            <span class="logo" style="color:#ff0000">H</span><span class="logo" style="color:#00ff00">a</span><span class="logo" style="color:#00ffff">p</span><span class="logo" style="color:#00f080">p</span><span class="logo" style="color:#ff00ff">y</span>
+            <span class="logo" style="color:#9999ff">C</span><span class="logo" style="color:#0000cc">h</span><span class="logo" style="color:#66ff66">i</span><span class="logo" style="color:#ff007f">c</span><span class="logo" style="color:#9933ff">k</span><span class="logo" style="color:#ff6000">e</span><span class="logo" style="color:#ff6666">n</span>
+            <span class="logo" style="color:#00cc00">F</span><span class="logo" style="color:#ff99ff">a</span><span class="logo" style="color:#0080ff">r</span><span class="logo" style="color:#ff8000">m</span>
+        </div>
+        <div id="oparea" class="gradient-border" id="box">
+            <div>
+                <textarea id="result" placeholder="Hmmm..." readonly></textarea>
+            </div>
+            <div>
+                <input type="text" id="msg" placeholder="command"></input>
+                <button id="text-submit">submit</button>
+            </div>
+        </frameset>
         <p id="test"></p>
     </div>
     <script src="./static/client.js"></script>
